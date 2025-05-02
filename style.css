@@ -75,3 +75,9 @@ svg {
 .y-axis line {
   stroke: #ccc;
 }
+
+.x-axis text {
+  font-size: 10px;
+  transform: rotate(-45deg);
+  text-anchor: end;
+}
