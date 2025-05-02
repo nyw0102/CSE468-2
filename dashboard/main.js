@@ -8,7 +8,7 @@ let rawData = [];
 
 // 데이터 불러오기 및 초기화
 (async function () {
-  rawData = await d3.csv("./Chocolate-Sales.csv", d => ({
+  rawData = await d3.csv("dashboard/Chocolate-Sales.csv", d => ({
     ...d,
     date: new Date(d.date),
     sales: +d.sales,
