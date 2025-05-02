@@ -18,32 +18,32 @@ export function initBarChart(data) {
 }
 
 export function updateBarChart() {
-  const data = aggregateByCategory(filterByTime(fullData));
+  const data = aggregateByProduct(filterByTime(fullData));
 
-  x.domain(data.map(d => d.category));
+  x.domain(data.map(d => d.product));
   y.domain([0, d3.max(data, d => d.sales)]);
 
-  const bars = svg.selectAll("rect").data(data, d => d.category);
+  const bars = svg.selectAll("rect").data(data, d => d.product);
 
   bars.enter()
     .append("rect")
-    .attr("x", d => x(d.category))
+    .attr("x", d => x(d.product))
     .attr("width", x.bandwidth())
     .attr("y", height)
     .attr("height", 0)
-    .attr("fill", d => color(d.category))
+    .attr("fill", d => color(d.product))
     .on("click", (event, d) => {
-      state.selectedCategory = (state.selectedCategory === d.category) ? null : d.category;
+      state.selectedCategory = (state.selectedCategory === d.product) ? null : d.product;
     })
     .merge(bars)
     .transition()
     .duration(500)
-    .attr("x", d => x(d.category))
+    .attr("x", d => x(d.product))
     .attr("width", x.bandwidth())
     .attr("y", d => y(d.sales))
     .attr("height", d => height - y(d.sales))
-    .attr("fill", d => color(d.category))
-    .attr("opacity", d => state.selectedCategory && state.selectedCategory !== d.category ? 0.5 : 1);
+    .attr("fill", d => color(d.product))
+    .attr("opacity", d => state.selectedCategory && state.selectedCategory !== d.product ? 0.5 : 1);
 
   bars.exit().remove();
 
@@ -65,7 +65,7 @@ function filterByTime(data) {
   return data.filter(d => d.date >= start && d.date <= end);
 }
 
-function aggregateByCategory(data) {
-  const grouped = d3.rollup(data, v => d3.sum(v, d => d.sales), d => d.category);
-  return Array.from(grouped, ([category, sales]) => ({ category, sales }));
+function aggregateByProduct(data) {
+  const grouped = d3.rollup(data, v => d3.sum(v, d => d.sales), d => d.product);
+  return Array.from(grouped, ([product, sales]) => ({ product, sales }));
 }
