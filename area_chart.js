@@ -8,14 +8,14 @@ let fullData = [];
 export function initAreaChart(data) {
   fullData = data;
 
-  const margin = { top: 20, right: 20, bottom: 110, left: 40 },
-        margin2 = { top: 330, right: 20, bottom: 30, left: 40 }, // context 차트를 더 아래로 이동
+  const margin = { top: 10, right: 20, bottom: 80, left: 40 },
+        margin2 = { top: 270, right: 20, bottom: 30, left: 40 },
         width = 800,
-        height = 270,
-        height2 = 70;
+        height = 240,   // ⬅ main chart height 줄임
+        height2 = 60;   // ⬅ context chart height 줄임
 
   svg = d3.select("#areaChartSVG")
-    .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + height2 + 70}`); // 총 높이 반영
+    .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + height2 + 40}`); // ⬅ 전체 높이 줄임
 
   x = d3.scaleTime().range([0, width]);
   y = d3.scaleLinear().range([height, 0]);
