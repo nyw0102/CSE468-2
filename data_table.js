@@ -18,13 +18,14 @@ export function updateDataTable() {
     .style("width", "100%")
     .style("border-collapse", "collapse");
 
-  const columns = ["date", "category", "product", "sales"];
+  const columns = ["salesperson", "category", "product", "date", "sales", "boxes"];
+  const headers = ["Sales Person", "Country", "Product", "Date", "Amount", "Boxes Shipped"];
 
   // Header
   const thead = table.append("thead");
   const headerRow = thead.append("tr");
   headerRow.selectAll("th")
-    .data(columns)
+    .data(headers)
     .enter()
     .append("th")
     .text(d => d)
@@ -45,7 +46,7 @@ export function updateDataTable() {
     });
 
   rows.selectAll("td")
-    .data(d => columns.map(key => d[key]))
+    .data(d => columns.map(key => formatCell(key, d[key])))
     .enter()
     .append("td")
     .text(d => d)
@@ -63,4 +64,14 @@ function filterData(data) {
     result = result.filter(d => d.category === state.selectedCategory);
   }
   return result;
+}
+
+function formatCell(key, value) {
+  if (key === "date" && value instanceof Date) {
+    return d3.timeFormat("%b %d, %Y")(value);
+  }
+  if (key === "sales") {
+    return `$${value.toLocaleString()}`;
+  }
+  return value;
 }
