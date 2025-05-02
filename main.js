@@ -8,12 +8,13 @@ let rawData = [];
 
 // 데이터 불러오기 및 초기화
 (async function () {
-  rawData = await d3.csv("Chocolate-Sales.csv", d => ({
-    ...d,
-    date: new Date(d.date),
-    sales: +d.sales,
-    id: d.id || crypto.randomUUID()  // 고유 ID 생성 (필요 시)
-  }));
+  rawData = await d3.csv("chocolate_sales_cleaned.csv", d => ({
+  date: new Date(d.Date),
+  sales: +d.Amount,
+  category: d.Country,
+  product: d.Product,
+  id: d["Sales Person"] + "_" + d.Date // 고유 ID 생성
+}));
 
   // 컴포넌트 초기화
   initAreaChart(rawData);
