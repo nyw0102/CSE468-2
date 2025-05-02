@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Chocolate Sales Dashboard</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #dashboard {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+    #charts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    #areaChart, #barChart {
+      flex: 1 1 45%;
+    }
+    #tableContainer {
+      margin-top: 20px;
+    }
+    button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="dashboard">
+    <h2>🍫 Chocolate Sales Dashboard</h2>
+    <div id="charts">
+      <div id="areaChart">
+        <h3>Sales Over Time</h3>
+        <svg id="areaChartSVG" width="100%" height="300"></svg>
+      </div>
+      <div id="barChart">
+        <h3>Sales by Category</h3>
+        <svg id="barChartSVG" width="100%" height="300"></svg>
+      </div>
+    </div>
+    <div>
+      <button id="reset-btn">🔄 Reset Filters</button>
+    </div>
+    <div id="tableContainer">
+      <h3>Sales Table</h3>
+      <div id="dataTable"></div>
+    </div>
+  </div>
+
+  <script src="state.js"></script>
+  <script src="area_chart.js"></script>
+  <script src="bar_chart.js"></script>
+  <script src="data_table.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
