@@ -6,7 +6,6 @@ import { resetState, updateAllComponents } from './state.js';
 
 let rawData = [];
 
-// 날짜 파싱 함수 (e.g., "04-Jan-22")
 const parseDate = d3.timeParse("%d-%b-%y");
 
 // 데이터 불러오기 및 초기화
