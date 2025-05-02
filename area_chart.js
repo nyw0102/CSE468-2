@@ -9,13 +9,13 @@ export function initAreaChart(data) {
   fullData = data;
 
   const margin = { top: 20, right: 20, bottom: 110, left: 40 },
-        margin2 = { top: 230, right: 20, bottom: 30, left: 40 },
+        margin2 = { top: 330, right: 20, bottom: 30, left: 40 }, // context 차트를 더 아래로 이동
         width = 800,
         height = 270,
         height2 = 70;
 
   svg = d3.select("#areaChartSVG")
-    .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`);
+    .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + height2 + 70}`); // 총 높이 반영
 
   x = d3.scaleTime().range([0, width]);
   y = d3.scaleLinear().range([height, 0]);
