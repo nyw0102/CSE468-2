@@ -1,4 +1,4 @@
-
+// area_chart.js
 import { state } from './state.js';
 
 let svg, x, y, xAxis, area, brush, xContext, yContext, areaContext;
@@ -48,7 +48,7 @@ export function initAreaChart(data) {
 }
 
 export function updateAreaChart() {
-  const data = filterByCategory(fullData);
+  const data = aggregateMonthlySales(filterByCategory(fullData));
 
   x.domain(d3.extent(data, d => d.date));
   y.domain([0, d3.max(data, d => d.sales)]);
@@ -61,7 +61,7 @@ export function updateAreaChart() {
   focus.append("path")
     .datum(data)
     .attr("class", "area-main")
-    .attr("fill", "#8B4513")
+    .attr("fill", "#8B9DC3")
     .attr("d", area);
 
   focus.append("g")
@@ -76,7 +76,7 @@ export function updateAreaChart() {
   context.append("path")
     .datum(data)
     .attr("class", "area-context")
-    .attr("fill", "#A0522D")
+    .attr("fill", "#d3d9f3")
     .attr("d", areaContext);
 
   context.append("g")
@@ -99,4 +99,13 @@ function brushed({ selection }) {
 function filterByCategory(data) {
   if (!state.selectedCategory) return data;
   return data.filter(d => d.category === state.selectedCategory);
+}
+
+function aggregateMonthlySales(data) {
+  const monthly = d3.rollups(
+    data,
+    v => d3.sum(v, d => d.sales),
+    d => d3.timeMonth(d.date)
+  );
+  return monthly.map(([date, sales]) => ({ date, sales })).sort((a, b) => a.date - b.date);
 }
