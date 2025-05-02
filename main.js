@@ -6,34 +6,35 @@ import { resetState, updateAllComponents } from './state.js';
 
 let rawData = [];
 
+// 날짜 파싱 함수 (e.g., "04-Jan-22")
+const parseDate = d3.timeParse("%d-%b-%y");
+
 // 데이터 불러오기 및 초기화
 (async function () {
   rawData = await d3.csv("chocolate_sales_cleaned.csv", d => ({
-  date: new Date(d.Date),
-  sales: +d.Amount,
-  category: d.Country,
-  product: d.Product,
-  id: d["Sales Person"] + "_" + d.Date // 고유 ID 생성
-}));
+    date: parseDate(d.Date),                             // "04-Jan-22" 형식 파싱
+    sales: +d.Amount.replace(/[$,]/g, ""),              // "$5,320" → 5320 숫자로 변환
+    category: d.Country,
+    product: d.Product,
+    id: d["Sales Person"] + "_" + d.Date
+  }));
 
-  // 컴포넌트 초기화
+  console.log("Parsed Data:", rawData.slice(0, 5));
+
   initAreaChart(rawData);
   initBarChart(rawData);
   initDataTable(rawData);
 
-  // 리셋 버튼 이벤트
   d3.select("#reset-btn").on("click", () => {
     resetState();
     updateAllComponents(updateFns);
   });
 })();
 
-// 각 컴포넌트 업데이트 함수들 모음
 const updateFns = {
   areaChart: updateAreaChart,
   barChart: updateBarChart,
   dataTable: updateDataTable
 };
 
-// 외부에서 호출할 수 있도록 export (선택)
 export { updateFns };
